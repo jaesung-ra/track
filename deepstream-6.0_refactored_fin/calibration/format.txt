@@ -1,0 +1,13 @@
+#format#
+distance
+point1.x, point1.y
+point2.x, point2.y
+point3.x, point3.y
+point4.x, point4.y
+
+#example#
+6.99
+886, 827
+660, 579
+1771, 696
+1410, 501

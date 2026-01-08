@@ -1,0 +1,10 @@
+syntax = "proto3";
+package signal;
+
+import "google/protobuf/empty.proto";
+import "traffic_signal_res.proto";
+
+service TrafficSignalService {
+  // 신호 정보 변경시 해당되는 Edge에 전송하는 메서드
+  rpc OnTrafficSignalChange(google.protobuf.Empty) returns (stream TrafficSignalRes);
+}

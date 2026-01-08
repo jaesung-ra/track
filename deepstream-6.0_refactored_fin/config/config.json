@@ -1,0 +1,119 @@
+{
+  "system": {
+    "operation_mode": "voltdb",
+    "camera_fps": 15,
+    "log_level": "info"
+  },
+  
+  "paths": {
+    "base_path": "/opt/nvidia/deepstream/deepstream-6.0/sources/objectDetector_GB/",
+    "sub_paths": {
+      "images": "images",
+      "rois": "settings/rois",
+      "db": ""
+    },
+    "image_types": {
+      "vehicle_2k": "vehicle_2k",
+      "vehicle_4k": "vehicle_4k",
+      "wait_queue": "wait_queue",
+      "incident_event": "incident"
+    },
+    "sqlite_db": {
+      "filename": "test.db"
+    },
+    "logs": "/home/nvidia/Desktop/deepstream_gb/logs"
+  },
+
+  "processing_modules": {  
+    "vehicle": {
+      "meta_2k": true,
+      "meta_4k": false,
+      "presence_check": {
+        "enabled": true,
+        "detect_frames": 1,
+        "absence_frames": 3,
+        "anti_flicker": true
+      }
+    },
+
+    "pedestrian": {
+      "meta": true,
+      "presence_check": {
+        "enabled": true,
+        "detect_frames": 1,
+        "absence_frames": 3,
+        "anti_flicker": true
+      }
+    },
+    
+    "vehicle_analytics": {
+      "statistics": true,
+      "stats_interval_minutes": 5,
+      "wait_queue": true
+    },
+
+    "incident_event": {
+      "reverse_driving": true,
+      "abnormal_stop_sequence": true,
+      "pedestrian_jaywalk": true
+    },
+
+    "special_site": {
+      "enabled": false,
+      "straight_left": true,
+      "right": false
+    }
+  },
+
+  "voltdb": {
+    "cam_db": {
+      "host": "192.168.1.3",
+      "port": 7777,
+      "retry": {
+        "max_attempts": 3,
+        "delay_ms": 500
+      },
+      "background_reconnect": {
+        "enabled": true,
+        "initial_delay_ms": 1000,
+        "max_delay_ms": 60000,
+        "backoff_multiplier": 2.0,
+        "check_interval_sec": 30,
+        "jitter_factor": 0.1
+      }
+    },
+    "signal_db": {
+      "enabled": true,
+      "host": "192.168.1.3",
+      "port": 7777,
+      "retry": {
+        "max_attempts": 3,
+        "delay_ms": 500
+      },
+      "background_reconnect": {
+        "enabled": true,
+        "initial_delay_ms": 2000,
+        "max_delay_ms": 300000,
+        "backoff_multiplier": 2.0,
+        "check_interval_sec": 300,
+        "jitter_factor": 0.2
+      }
+    }
+  },
+  
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "channels": {
+      "vehicle_2k": "detection:vehicle:2k",
+      "vehicle_4k": "detection:vehicle:4k",
+      "pedestrian": "detection:person",
+      "stats": "statistics",
+      "queue": "wait_queue",
+      "incident": "incident_event",
+      "vehicle_presence": "presence:vehicle",
+      "ped_crossing": "presence:person:crosswalk",
+      "ped_waiting": "presence:person:waiting_area"
+    }
+  }
+}

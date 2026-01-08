@@ -1,0 +1,6 @@
+syntax = "proto3";
+package edge;
+
+message SpotCameraIdRes {
+  string spot_camera_id = 1;
+}
